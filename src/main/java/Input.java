@@ -13,9 +13,10 @@ import java.util.List;
 
 
 public class Input {
-    public static void main(String[] args) throws IOException {
+
+    public static List inputStudents() throws IOException {
         List listStudents = new ArrayList();
-        List listUniversities = new ArrayList();
+
         File file = new File("src/universityInfo.xlsx");
         FileInputStream fis = new FileInputStream(file);
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -30,21 +31,25 @@ public class Input {
                 listStudents.add(cell);
             }
         }
-        System.out.print(listStudents);
+        return listStudents;
+    }
+
+    public static List inputUniversities() throws IOException {
+        List listUniversities = new ArrayList();
+        File file = new File("src/main/resources/universityInfo.xlsx");
+        FileInputStream fis = new FileInputStream(file);
+        XSSFWorkbook workbook = new XSSFWorkbook(fis);
         XSSFSheet sheetUniversities = workbook.getSheetAt(1);
         Iterator<Row> rowIteratorUniversities = sheetUniversities.iterator();
         rowIteratorUniversities.next();
-        while (rowIteratorUniversities.hasNext()){
-            Row rowUniversities=rowIteratorUniversities.next();
+        while (rowIteratorUniversities.hasNext()) {
+            Row rowUniversities = rowIteratorUniversities.next();
             Iterator<Cell> cellIteratorUniversities = rowUniversities.cellIterator();
-            while(cellIteratorUniversities.hasNext()){
-                Cell cell =cellIteratorUniversities.next();
+            while (cellIteratorUniversities.hasNext()) {
+                Cell cell = cellIteratorUniversities.next();
                 listUniversities.add(cell);
-
             }
         }
-        System.out.println(listUniversities);
-
+        return listUniversities;
     }
-
 }

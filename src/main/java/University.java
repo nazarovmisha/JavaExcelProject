@@ -6,7 +6,7 @@ public class University {
     private int yearOfFoundation;
     private StudyProfile studyProfile;
 
-    public University() {
+    private University() {
 
     }
 

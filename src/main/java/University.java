@@ -6,9 +6,7 @@ public class University {
     private int yearOfFoundation;
     private StudyProfile studyProfile;
 
-    private University() {
 
-    }
 
     public String getId() {
         return id;

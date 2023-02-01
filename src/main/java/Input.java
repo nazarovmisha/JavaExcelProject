@@ -1,4 +1,3 @@
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,10 +13,13 @@ import java.util.List;
 
 public class Input {
 
-    public static List inputStudents() throws IOException {
-        List listStudents = new ArrayList();
+    public Input() {
+    }
 
-        File file = new File("src/universityInfo.xlsx");
+    public static List<Student> inputStudents(String str) throws IOException {
+        List<Student> listStudents = new ArrayList();
+
+        File file = new File(str);
         FileInputStream fis = new FileInputStream(file);
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
         XSSFSheet sheetStudents = workbook.getSheetAt(0);
@@ -25,31 +27,36 @@ public class Input {
         rowIteratorStudents.next();
         while (rowIteratorStudents.hasNext()) {
             Row rowStudents = rowIteratorStudents.next();
-            Iterator<Cell> cellIteratorStudents = rowStudents.cellIterator();
-            while (cellIteratorStudents.hasNext()) {
-                Cell cell = cellIteratorStudents.next();
-                listStudents.add(cell);
-            }
+            Student student = new Student();
+            listStudents.add(student);
+            student.setFullName(rowStudents.getCell(0).getStringCellValue());
+            student.setUniversityId(rowStudents.getCell(1).getStringCellValue());
+            student.setCurrentCourseNumber((int) rowStudents.getCell(2).getNumericCellValue());
+            student.setAvgExamScore((float) rowStudents.getCell(3).getNumericCellValue());
+
         }
         return listStudents;
     }
 
-    public static List inputUniversities() throws IOException {
-        List listUniversities = new ArrayList();
-        File file = new File("src/main/resources/universityInfo.xlsx");
-        FileInputStream fis = new FileInputStream(file);
-        XSSFWorkbook workbook = new XSSFWorkbook(fis);
-        XSSFSheet sheetUniversities = workbook.getSheetAt(1);
-        Iterator<Row> rowIteratorUniversities = sheetUniversities.iterator();
-        rowIteratorUniversities.next();
-        while (rowIteratorUniversities.hasNext()) {
-            Row rowUniversities = rowIteratorUniversities.next();
-            Iterator<Cell> cellIteratorUniversities = rowUniversities.cellIterator();
-            while (cellIteratorUniversities.hasNext()) {
-                Cell cell = cellIteratorUniversities.next();
-                listUniversities.add(cell);
+        public static List<University> inputUniversities (String str) throws IOException {
+            List<University> listUniversities = new ArrayList();
+            File file = new File(str);
+            FileInputStream fis = new FileInputStream(file);
+            XSSFWorkbook workbook = new XSSFWorkbook(fis);
+            XSSFSheet sheetUniversities = workbook.getSheetAt(1);
+            Iterator<Row> rowIteratorUniversities = sheetUniversities.iterator();
+            rowIteratorUniversities.next();
+            while (rowIteratorUniversities.hasNext()) {
+                Row rowUniversities = rowIteratorUniversities.next();
+                University university = new University();
+                listUniversities.add(university);
+                university.setId(rowUniversities.getCell(0).getStringCellValue());
+                university.setFullName(rowUniversities.getCell(1).getStringCellValue());
+                university.setShortName(rowUniversities.getCell(2).getStringCellValue());
+                university.setYearOfFoundation((int) rowUniversities.getCell(3).getNumericCellValue());
+                university.setStudyProfile(StudyProfile.valueOf
+                        (StudyProfile.class, rowUniversities.getCell(4).getStringCellValue()));
             }
+            return listUniversities;
         }
-        return listUniversities;
     }
-}

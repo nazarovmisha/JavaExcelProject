@@ -4,8 +4,6 @@ public class Student {
     private int currentCourseNumber;
     private float avgExamScore;
 
-   private Student() {
-    }
 
     public String getFullName() {
         return fullName;
